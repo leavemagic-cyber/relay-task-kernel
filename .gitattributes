@@ -1,0 +1,6 @@
+# Keep line endings LF in the repository regardless of contributor platform.
+# Without this, a Windows clone with core.autocrlf=true turns every file into
+# a whole-file diff.
+* text=auto eol=lf
+
+# rtk itself can emit CRLF (`--crlf`); that is a runtime choice, not a repo one.

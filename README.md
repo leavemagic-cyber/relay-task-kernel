@@ -179,7 +179,7 @@ Issues and PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). New presets
 are the easiest place to start.
 
 ```bash
-npm test        # 26 tests, no dependencies
+npm test        # 31 tests, no dependencies
 ```
 
 ## License

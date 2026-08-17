@@ -155,7 +155,7 @@ Claude Code、Codex、Gemini 輪流維護，已發布約 90 篇文章。
 歡迎 issue 和 PR，見 [CONTRIBUTING.md](CONTRIBUTING.md)。新增 preset 是最好上手的地方。
 
 ```bash
-npm test        # 26 個測試，零依賴
+npm test        # 31 個測試，零依賴
 ```
 
 ## 授權

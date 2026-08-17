@@ -1,8 +1,8 @@
 import os from 'node:os';
 import path from 'node:path';
 
-import { mergeBlock, withEol, hasBlock } from './blocks.js';
-import { Report, readIfExists, writeFile, timestamp, relative } from './files.js';
+import { mergeBlock, removeBlock, withEol, hasBlock } from './blocks.js';
+import { Report, deleteFile, readIfExists, writeFile, timestamp, relative } from './files.js';
 import { loadTemplate, render } from './templates.js';
 
 /**
@@ -152,6 +152,45 @@ export function applyPlan(plan, { vars, cwd = process.cwd(), dryRun = false, bac
       : mergeBlock(readIfExists(step.file), step.block, rendered, { eol });
 
     writeFile(step.file, content, { report, dryRun, backup, stamp, label });
+  }
+
+  return report;
+}
+
+/**
+ * Remove RTK's managed content while preserving text outside its fenced
+ * blocks. Files owned entirely by RTK are deleted. Every change is backed up
+ * by default, and dry runs produce the same report without touching disk.
+ */
+export function ejectPlan(plan, { cwd = process.cwd(), dryRun = false, backup = true, eol = '\n' } = {}) {
+  const report = new Report();
+  const stamp = timestamp();
+
+  for (const step of plan) {
+    const existing = readIfExists(step.file);
+    const label = relative(cwd, step.file);
+
+    if (existing === null) {
+      report.add('unchanged', label);
+      continue;
+    }
+
+    if (step.owned) {
+      deleteFile(step.file, { report, dryRun, backup, stamp, label });
+      continue;
+    }
+
+    if (!hasBlock(existing, step.block)) {
+      report.add('unchanged', label);
+      continue;
+    }
+
+    const content = removeBlock(existing, step.block, { eol });
+    if (content.trim() === '') {
+      deleteFile(step.file, { report, dryRun, backup, stamp, label });
+    } else {
+      writeFile(step.file, content, { report, dryRun, backup, stamp, label });
+    }
   }
 
   return report;

@@ -11,6 +11,7 @@ export class Report {
   constructor() {
     this.created = [];
     this.updated = [];
+    this.deleted = [];
     this.unchanged = [];
     this.backedUp = [];
     this.skipped = [];
@@ -21,7 +22,7 @@ export class Report {
   }
 
   get changed() {
-    return this.created.length + this.updated.length;
+    return this.created.length + this.updated.length + this.deleted.length;
   }
 
   get isEmpty() {
@@ -80,6 +81,30 @@ export function writeFile(file, content, options = {}) {
   if (!dryRun) fs.writeFileSync(file, content, 'utf8');
   report?.add('updated', label);
   return 'updated';
+}
+
+/**
+ * Delete `file`, backing it up first by the same convention as writeFile.
+ * A missing file is unchanged, which keeps dry-run reports aligned with a
+ * real run.
+ */
+export function deleteFile(file, options = {}) {
+  const { report, dryRun = false, backup = true, stamp = 'manual', label = file } = options;
+  const existing = readIfExists(file);
+
+  if (existing === null) {
+    report?.add('unchanged', label);
+    return 'unchanged';
+  }
+
+  if (backup) {
+    const target = backupPath(file, stamp);
+    if (!dryRun) fs.copyFileSync(file, target);
+    report?.add('backedUp', path.basename(target));
+  }
+  if (!dryRun) fs.unlinkSync(file);
+  report?.add('deleted', label);
+  return 'deleted';
 }
 
 /**

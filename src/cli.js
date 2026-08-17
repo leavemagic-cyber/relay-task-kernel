@@ -3,7 +3,7 @@ import path from 'node:path';
 import readline from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
 
-import { applyPlan, buildPlan, checkPlan } from './scaffold.js';
+import { applyPlan, buildPlan, checkPlan, ejectPlan } from './scaffold.js';
 import { detectVars, listPresets, loadPreset } from './templates.js';
 
 const USAGE = `rtk - Relay Task Kernel
@@ -13,6 +13,7 @@ const USAGE = `rtk - Relay Task Kernel
 Usage
   rtk init [options]     write the agent contract into a repo (and optionally ~/.rtk)
   rtk check [options]    verify every managed block is still present
+  rtk eject [options]    remove RTK-managed content while preserving your own
   rtk presets            list available presets
   rtk help | --help
   rtk --version
@@ -35,7 +36,7 @@ Variable shorthands
   --name, --description, --branch, --repo, --validate, --lang, --owner
 
 Examples
-  npx relay-task-kernel init --all
+  npx github:leavemagic-cyber/relay-task-kernel init --all
   rtk init --preset content-site --name "My Blog" --yes
   rtk check --all
 `;
@@ -132,6 +133,7 @@ function printReport(report, { dryRun }) {
   const sections = [
     ['created', 'Created'],
     ['updated', 'Updated'],
+    ['deleted', 'Deleted'],
     ['backedUp', 'Backed up'],
     ['unchanged', 'Unchanged'],
   ];
@@ -172,7 +174,7 @@ export async function run(argv) {
     return 0;
   }
 
-  if (options.command !== 'init' && options.command !== 'check') {
+  if (!['init', 'check', 'eject'].includes(options.command)) {
     stdout.write(`Unknown command: ${options.command}\n\n${USAGE}`);
     return 1;
   }
@@ -193,6 +195,18 @@ export async function run(argv) {
         : `\n${broken.length} of ${results.length} need \`rtk init\`.\n`,
     );
     return broken.length === 0 ? 0 : 1;
+  }
+
+  if (options.command === 'eject') {
+    const report = ejectPlan(plan, {
+      cwd: options.dir,
+      dryRun: options.dryRun,
+      backup: options.backup,
+      eol: options.eol,
+    });
+
+    printReport(report, { dryRun: options.dryRun });
+    return 0;
   }
 
   let vars = { ...detectVars(options.dir), ...(preset?.vars ?? {}) };

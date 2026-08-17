@@ -26,7 +26,7 @@ RTK 把那四個檔案變成指向同一份規則的薄入口，再給專案一�
 ## 快速開始
 
 ```bash
-npx relay-task-kernel init --all
+npx github:leavemagic-cyber/relay-task-kernel init --all
 ```
 
 `--all` 會同時寫入機器層的 `~/.rtk/` 和目前 repo 的專案層設定。
@@ -91,6 +91,7 @@ npx relay-task-kernel init --all
 | `rtk init --global` | 只寫 `~/.rtk/` 和 `~/.codex/AGENTS.md` |
 | `rtk init --all` | 兩邊都寫 |
 | `rtk check` | 檢查所有管理區塊是否完整（有問題回傳 exit 1） |
+| `rtk eject` | 移除 RTK 的區塊，你自己寫的內容全部保留 |
 | `rtk presets` | 列出可用情境 |
 
 常用參數：`--dry-run`、`--yes`、`--dir <路徑>`、`--preset <名稱>`、

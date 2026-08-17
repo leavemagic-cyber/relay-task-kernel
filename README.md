@@ -33,7 +33,7 @@ agents.
 ## Quick start
 
 ```bash
-npx relay-task-kernel init --all
+npx github:leavemagic-cyber/relay-task-kernel init --all
 ```
 
 `--all` writes the machine-wide protocol to `~/.rtk/` **and** the project
@@ -105,6 +105,7 @@ Which means:
 | `rtk init --global` | write `~/.rtk/` and `~/.codex/AGENTS.md` only |
 | `rtk init --all` | both |
 | `rtk check` | verify every managed block is still intact (exit 1 if not) |
+| `rtk eject` | remove RTK's blocks, keep everything you wrote yourself |
 | `rtk presets` | list presets |
 
 Useful flags: `--dry-run`, `--yes`, `--dir <path>`, `--preset <name>`,

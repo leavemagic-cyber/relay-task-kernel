@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import path from 'node:path';
 
 import { parseArgs } from '../src/cli.js';
 
@@ -17,6 +18,18 @@ test('reads command, scope and flags', () => {
   assert.equal(options.scope, 'all');
   assert.equal(options.dryRun, true);
   assert.equal(options.backup, false);
+  assert.equal(options.eol, '\r\n');
+});
+
+test('eject accepts the existing scope, target and output flags', () => {
+  const options = parseArgs([
+    'eject', '--all', '--dir', 'target-repo', '--preset', 'content-site', '--dry-run', '--crlf',
+  ]);
+  assert.equal(options.command, 'eject');
+  assert.equal(options.scope, 'all');
+  assert.equal(options.dir, path.resolve('target-repo'));
+  assert.equal(options.preset, 'content-site');
+  assert.equal(options.dryRun, true);
   assert.equal(options.eol, '\r\n');
 });
 

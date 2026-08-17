@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# rtk writes timestamped backups next to files it edits
+*.backup.*
+
+# scratch output from `npm run smoke`
+.rtk-smoke/

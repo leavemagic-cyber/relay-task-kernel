@@ -1,0 +1,47 @@
+{
+  "name": "relay-task-kernel",
+  "version": "0.1.0",
+  "description": "One handoff contract that Claude Code, Codex, Gemini CLI and Copilot all read. Scaffolds shared agent rules, scoped memory and handoff cards into any repo.",
+  "keywords": [
+    "ai",
+    "agents",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "copilot",
+    "agents-md",
+    "claude-md",
+    "handoff",
+    "context-engineering",
+    "developer-tools"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "rtk": "bin/rtk.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates",
+    "presets",
+    "README.md",
+    "README.zh-TW.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "smoke": "node bin/rtk.js init --dir .rtk-smoke --yes --dry-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leavemagic-cyber/relay-task-kernel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leavemagic-cyber/relay-task-kernel/issues"
+  },
+  "homepage": "https://github.com/leavemagic-cyber/relay-task-kernel#readme"
+}

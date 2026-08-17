@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/leavemagic-cyber/relay-task-kernel/task-packet.schema.json",
+  "title": "RTK Task Packet",
+  "type": "object",
+  "required": ["goal", "scope", "out_of_scope", "validation", "risks"],
+  "properties": {
+    "goal": { "type": "string" },
+    "scope": { "type": "array", "items": { "type": "string" } },
+    "out_of_scope": { "type": "array", "items": { "type": "string" } },
+    "files_likely_needed": { "type": "array", "items": { "type": "string" } },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "validation": { "type": "array", "items": { "type": "string" } },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "memory_patch_needed": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: ['18.x', '20.x', '22.x']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Test
+        run: npm test
+
+      - name: Scaffold into a scratch repo and verify it checks out
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/scratch"
+          cd "$RUNNER_TEMP/scratch"
+          git init -q
+          node "$GITHUB_WORKSPACE/bin/rtk.js" init --yes --name ci --description "ci run" --owner ci --lang English
+          node "$GITHUB_WORKSPACE/bin/rtk.js" check
+          ! grep -rq '{{' AGENTS.md CLAUDE.md GEMINI.md START_HERE.md .rtk

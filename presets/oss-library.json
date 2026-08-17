@@ -1,0 +1,14 @@
+{
+  "description": "Published packages where an agent must not touch versions, tags or releases",
+  "vars": {
+    "VALIDATE_COMMAND": "npm test"
+  },
+  "extras": [
+    {
+      "scope": "project",
+      "path": ".rtk/rules/release.md",
+      "block": "PROJECT-RTK-RELEASE",
+      "template": "presets/oss-library/release.md"
+    }
+  ]
+}

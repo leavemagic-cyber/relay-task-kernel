@@ -1,0 +1,20 @@
+{
+  "description": "Blog / docs / publication repos where drafts must never leak into production",
+  "vars": {
+    "VALIDATE_COMMAND": "npm run build"
+  },
+  "extras": [
+    {
+      "scope": "global",
+      "path": "rules/content-review.md",
+      "block": "GLOBAL-RTK-CONTENT-REVIEW",
+      "template": "presets/content-site/content-review.md"
+    },
+    {
+      "scope": "project",
+      "path": ".rtk/rules/publishing.md",
+      "block": "PROJECT-RTK-PUBLISHING",
+      "template": "presets/content-site/publishing.md"
+    }
+  ]
+}
